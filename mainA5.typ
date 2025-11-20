@@ -1,16 +1,10 @@
 #import "@preview/wrap-it:0.1.1": *
 #import "@preview/algo:0.3.6": algo, i, d, comment, code
 
-/* #set page(
-    paper: "us-letter",
-    margin: (top: 16.2mm, bottom: 16.6mm, right: 27.95mm, left: 27.95mm),
-  // numbering: "1"
-) */
-
 #set page(
   width: 5.8in,
   height: 8.3in,
-  margin: (top: 2cm, bottom: 2cm, left: 1.25cm, right: 1.25cm),
+  margin: (top: 2cm, bottom: 2cm, left: 1.5cm, right: 1cm),
   )
   
 #set text(
@@ -209,7 +203,7 @@ I'll put this on the back burner for now and return to this later.
 
 #pad([#figure(
   pad(
-  image("images/mixup.png", width: 70%),
+  image("images/mixupA5.png", width: 70%),
   right: 0.0em, bottom: 0em
   ),
   caption: [Ambiguity leads to all four directions\ being possible "good moves"],
@@ -223,7 +217,7 @@ When playing 2048, it is good to choose one orientation and stick with it. Howev
 #pad(
 [#figure(
   pad(
-  image("images/flipsave.png", width: 100%),
+  image("images/flipsaveA5.png", width: 100%),
   right: -0.4em,
   left: 0.8em,
   bottom: -0.5em
@@ -361,7 +355,7 @@ Around then, I started to suspect that my model was overfitting --- in other wor
   
   caption: [Performance of the model as epochs increase],
 ) <img:imitation>],
-bottom: 0em, top: -0.0em, right: 0em,
+bottom: 0em, top: -0.0em, right: 1.8em, left: 0.5em
 )
 
 // #wrap-content(imitation, [
@@ -449,7 +443,7 @@ Turns out, this actually does lead to some improvement!
   ),
   caption: [Comparison between pure imitation and finetuned imitation],
 ) <img:comparison>],
-left: 0em, right: -1.8em, bottom: 0.0em, top: 0.2em
+left: 0em, right: -1.8em, bottom: 1.0em, top: 0.2em
 )
 
 = The end?
