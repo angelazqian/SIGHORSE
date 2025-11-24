@@ -4,9 +4,9 @@
 #set page(
   width: 5.8in,
   height: 8.3in,
-  margin: (top: 2cm, bottom: 2cm, left: 1.5cm, right: 1cm),
+  margin: (top: 2cm, bottom: 2cm, left: 1.25cm, right: 1.25cm),
   )
-  
+
 #set text(
   size: 11pt,
   hyphenate: false,
@@ -36,6 +36,7 @@
 #set heading(numbering: "1.1")
 #show heading: set text(15pt, tracking: -0.25pt) 
 #show heading: set block(below: 0.8em)
+#show heading: set block(above: 1em)
 
 /////////////////////////////////////////////////
 
@@ -136,6 +137,7 @@ Not only did their games tend to end much earlier than mine, looking through the
 I ended up writing a small Python script that worked as a keylogger. When run, it opens 2048 in my browser, and for every move I make, the script saves the board state along with the move into a JSON file. This also allowed me to undo a move if I slipped up, so I didn’t end up logging “bad moves” into the dataset. After collecting a staggering eight games (ok, not a lot lol but in my defense each game lasts anywhere from half an hour to four hours and i didn't have much free time since i was employed full-time over the summer), it's time to start training!
 ],
 // align: bottom,
+// align: right,
 // column-gutter: 1.5em
 columns: (45%, 51.85%),
 )
@@ -162,7 +164,9 @@ This would be reflected in the dataset, since all the collected games would foll
 
 Since the model would have only learned to play well in the same orientation as me, when it loses that structure, it struggles to recover. That's also a problem if someone wanted to try playing the game themself, then swap in the bot mid-way --- their tile alignment may be different than mine. Even natural gameplay sometimes shifts the board’s orientation over time. I duplicated my data to represent all 8 orientations ($4 times 90 degree$ rotations, then $2 times$ for each mirror), as shown in @img:mirrots, and there is a _slight_ improvement, but it's still comically bad.
 ],
-columns: (41.85%, 55%),
+// columns: (41.85%, 55%),
+columns: (55%, 41.85%),
+align: right
 )
 
 #pad([#figure(
@@ -420,7 +424,7 @@ Here's the pseudocode for how the graph is generated, hopefully this helps if my
   image("images/finetune.png", width: 100%),
   right: 1.68em,
   bottom: -0.5em,
-  top: 0.6em
+  top: -0.6em
   ),
   
   caption: [Performance of the model as batches increase],
@@ -430,9 +434,7 @@ bottom: 0.5em, top: -0.0em, right: -0em,
 
 // #wrap-content(finetune, [
 With the finetuning that I had attempted earlier, I noticed that the average scores reached by the model would dip a decent amount before they improved, then they would start worsening again. 
-
 Because of this, I essentially did the same thing, where after each batch (a small group of training samples, in this case 25 episodes, processed before updating the model’s weights), I test it for 100 games, then track the average scores. If no improvement is seen after 40 batches, I reload from the last best model, then continue from there. If it reloads too many times in a row (8), I stop and end the training.
-
 Turns out, this actually does lead to some improvement!
 // ],columns: (65%, 33%),)
 
@@ -443,12 +445,12 @@ Turns out, this actually does lead to some improvement!
   ),
   caption: [Comparison between pure imitation and finetuned imitation],
 ) <img:comparison>],
-left: 0em, right: -1.8em, bottom: 1.0em, top: 0.2em
+left: 0em, right: -1.8em, bottom: 0.0em, top: 0.0em
 )
 
 = The end?
 
-My model is still far from perfect, and to be honest I'm still not completely satisfied with its performance. The finetuned version only reaches 2048 around 35% of the time, and since it was trained with imitation learning, it struggles to recover once it makes a mistake. It also does badly if you drop it mid-game where a human had been playing with a $90 degree$ or $270 degree$ rotation, since I excluded those orientations from my training data. Looking ahead, I'd also like to experiment with models trained entirely through reinforcement learning without any of my own gameplay data, and eventually implement a DQN
+My model is still far from perfect, and to be honest I'm still not completely satisfied with its performance. The finetuned version only reaches 2048 around 35% of the time, and since it was trained with imitation learning, it struggles to recover once it makes a mistake. It also does badly if you drop it mid-game where a human had been playing with a $90 degree$ or $270 degree$ rotation, since I excluded those orientations from my training data. Looking ahead, I'd like to experiment with models trained entirely through reinforcement learning without any of my own gameplay data, and eventually implement a DQN
 #footnote[I explained what a DQN is in a previous footnote. Are you not reading my footnotes?! My feelings are hurt.] //i wanna use an interrobang (‽) but terrible for legibility :(
 into my model.
 
@@ -456,3 +458,5 @@ But alas, summer has come to an end, and with it, the end of my free time --- an
 
 This is my first ever journal entry, and thus, I have no idea how to end this. Bye bye, thanks for reading, etc. The end!!!
 
+= Acknowledgements
+Thank you so much to Kartavya for helping me proofread and polish this. Also, huge thanks to Professor Campbell for double-checking my technical details and saving me from embarrassing myself. Lastly, thank you --- you, the reader, for putting up with me long enough to reach the end of this paper.
